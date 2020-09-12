@@ -3,7 +3,7 @@
  * A WordGram represents a sequence of strings
  * just as a String represents a sequence of characters
  * 
- * @author YOUR NAME HERE
+ * @author Cynthia France
  *
  */
 public class WordGram {
@@ -21,10 +21,14 @@ public class WordGram {
 	 */
 	public WordGram(String[] source, int start, int size) {
 		myWords = new String[size];
-		myToString = null;
+		myToString = "";
 		myHash = 0;
 
-		// TODO: initialize all instance variable
+		int s = start;
+		for (int i = 0; i < size; i++) {
+			myWords[i] = source[s];
+			s++;
+		}
 	}
 
 	/**
@@ -40,52 +44,70 @@ public class WordGram {
 	}
 
 	/**
-	 * Complete this comment
-	 * @return
+	 * Returns the number of words in the WordGram (aka its order)
+	 * @return order of the WordGram
 	 */
 	public int length(){
-		// TODO: change this
-		return 0;
+		return myWords.length;
 	}
 
 
 	/**
-	 * Complete appropriate comment here
-	 * @param o
-	 * @return
+	 * Returns true if parameter is a WordGram with the same order of strings as this
+	 * @param o Object (WordGram) to compare to this.
+	 * @return true if two WordGram objects contain same strings in same order
 	 */
 	@Override
 	public boolean equals(Object o) {
 		if (! (o instanceof WordGram) || o == null){
 			return false;
 		}
-		// TODO: Complete this method
 
-		return true;
+		WordGram compare = (WordGram) o;
+		return (this.toString().equals(compare.toString()));
 	}
 
+	/**
+	 * Returns hashCode of the WordGram, determined by the hashCode of its .toString()
+	 * @return hashCode of this.toString()
+	 */
 	@Override
 	public int hashCode(){
-		// TODO: complete this method: assign to myHash as needed
+		if (myHash == 0) {
+			String s = this.toString();
+			myHash = s.hashCode();
+		}
 		return myHash;
 	}
 	
 
 	/**
-	 * Create and complete this comment
+	 * returns new WordGram object whose first k-1 strings are the same as this's
+	 * last k-1 strings, where k is the order of the WordGram. The last string of the new
+	 * WordGram is a new String
 	 * @param last is last String of returned WordGram
-	 * @return
+	 * @return new WordGram object whose values are shifted "up" a step and new word added on the end.
 	 */
 	public WordGram shiftAdd(String last) {
-		WordGram wg = new WordGram(myWords,0,myWords.length);
-		// TODO: Complete this method
+		String[] newWords = new String[myWords.length];
+		for (int i = 0; i < newWords.length - 1; i++) {
+			newWords[i] = myWords[i+1];
+		}
+		newWords[myWords.length - 1] = last;
+		WordGram wg = new WordGram(newWords, 0, myWords.length);
 
 		return wg;
 	}
 
+	/**
+	 * Returns one string of all the strings in the WordGram, separated by a space
+	 * @return
+	 */
 	@Override
 	public String toString(){
-		// TODO: Complete this method, assign to myToString as needed
+		if (myToString.equals("")) {
+			myToString = String.join(" ", myWords);
+		}
 		return myToString;
 	}
 }
